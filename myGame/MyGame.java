@@ -18,9 +18,9 @@ public class MyGame extends VariableFrameRateGame
 	private int counter=0;
 	private double lastFrameTime, currFrameTime, elapsTime;
 
-	private GameObject dol;
-	private ObjShape dolS;
-	private TextureImage doltx;
+	private GameObject dol, cub;
+	private ObjShape dolS, cubS;
+	private TextureImage doltx, prize;
 	private Light light1;
 
 	public MyGame() { super(); }
@@ -35,11 +35,13 @@ public class MyGame extends VariableFrameRateGame
 	@Override
 	public void loadShapes()
 	{	dolS = new ImportedModel("dolphinHighPoly.obj");
+		cubS = new Cube();
 	}
 
 	@Override
 	public void loadTextures()
 	{	doltx = new TextureImage("Dolphin_HighPolyUV.png");
+		prize = new TextureImage("prize.png");
 	}
 
 	@Override
@@ -52,6 +54,13 @@ public class MyGame extends VariableFrameRateGame
 		initialScale = (new Matrix4f()).scaling(3.0f);
 		dol.setLocalTranslation(initialTranslation);
 		dol.setLocalScale(initialScale);
+
+		// build cube at the right of the window
+		cub = new GameObject(GameObject.root(), cubS, prize);
+		initialTranslation = (new Matrix4f()).translation(3,0,0);
+		initialScale = (new Matrix4f()).scaling(0.5f);
+		cub.setLocalTranslation(initialTranslation);
+		cub.setLocalScale(initialScale);
 	}
 
 	@Override
@@ -95,23 +104,38 @@ public class MyGame extends VariableFrameRateGame
 
 	@Override
 	public void keyPressed(KeyEvent e)
-	{	switch (e.getKeyCode())
-		{	case KeyEvent.VK_C:
-				counter++;
-				break;
-			case KeyEvent.VK_1:
+	{ 	Vector3f loc, fwd, up, right, newLocation;
+		Camera cam;
+		switch (e.getKeyCode())
+			{ case KeyEvent.VK_1:
 				paused = !paused;
 				break;
-			case KeyEvent.VK_2:
-				dol.getRenderStates().setWireframe(true);
+			case KeyEvent.VK_2: // move dolphin forward
+				fwd = dol.getWorldForwardVector();
+				loc = dol.getWorldLocation();
+				newLocation = loc.add(fwd.mul(.02f));
+				dol.setLocalLocation(newLocation);
 				break;
-			case KeyEvent.VK_3:
-				dol.getRenderStates().setWireframe(false);
+			case KeyEvent.VK_3: // move dolphin backward
+				fwd = dol.getWorldForwardVector();
+				loc = dol.getWorldLocation();
+				newLocation = loc.add(fwd.mul(-.02f));
+				dol.setLocalLocation(newLocation);
 				break;
-			case KeyEvent.VK_4:
-				(engine.getRenderSystem().getViewport("MAIN").getCamera()).setLocation(new Vector3f(0,0,0));
+			case KeyEvent.VK_4: // view from dolphin
+				// to "ride" the dolphin, move this code to update()
+				cam = (engine.getRenderSystem()
+				.getViewport("MAIN").getCamera());
+				loc = dol.getWorldLocation();
+				fwd = dol.getWorldForwardVector();
+				up = dol.getWorldUpVector();
+				right = dol.getWorldRightVector();
+				cam.setU(right);
+				cam.setV(up);
+				cam.setN(fwd);
+				cam.setLocation(loc.add(up.mul(1.3f)).add(fwd.mul(-2.5f)));
 				break;
-		}
+			}
 		super.keyPressed(e);
 	}
 }
