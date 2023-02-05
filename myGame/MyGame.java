@@ -18,8 +18,8 @@ public class MyGame extends VariableFrameRateGame
 	private int counter=0;
 	private double lastFrameTime, currFrameTime, elapsTime;
 
-	private GameObject dol, cub;
-	private ObjShape dolS, cubS;
+	private GameObject dol, cub, x, y, z;
+	private ObjShape dolS, cubS, linxS, linyS, linzS;
 	private TextureImage doltx, prize;
 	private Light light1;
 
@@ -36,6 +36,9 @@ public class MyGame extends VariableFrameRateGame
 	public void loadShapes()
 	{	dolS = new ImportedModel("dolphinHighPoly.obj");
 		cubS = new Cube();
+		linxS = new Line(new Vector3f(0f,0f,0f), new Vector3f(3f,0f,0f));
+		linyS = new Line(new Vector3f(0f,0f,0f), new Vector3f(0f,3f,0f));
+		linzS = new Line(new Vector3f(0f,0f,0f), new Vector3f(0f,0f,-3f));
 	}
 
 	@Override
@@ -47,6 +50,16 @@ public class MyGame extends VariableFrameRateGame
 	@Override
 	public void buildObjects()
 	{	Matrix4f initialTranslation, initialScale;
+
+		// create world axes
+		x = new GameObject(GameObject.root(), linxS);
+		y = new GameObject(GameObject.root(), linyS);
+		z = new GameObject(GameObject.root(), linzS);
+
+		//set world axes' colors
+		x.getRenderStates().setColor(new Vector3f(1f, 0f, 0f));
+		y.getRenderStates().setColor(new Vector3f(0f, 1f, 0f));
+		z.getRenderStates().setColor(new Vector3f(0f, 0f, 1f));
 
 		// build dolphin in the center of the window
 		dol = new GameObject(GameObject.root(), dolS, doltx);
