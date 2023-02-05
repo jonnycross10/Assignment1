@@ -1,6 +1,7 @@
 package myGame;
 
 import tage.*;
+import tage.input.InputManager;
 import tage.shapes.*;
 
 import java.lang.Math;
@@ -10,8 +11,12 @@ import java.io.*;
 import javax.swing.*;
 import org.joml.*;
 
+import myGame.FwdAction;
+
 public class MyGame extends VariableFrameRateGame
 {
+	private boolean isMounted;
+	private InputManager im;
 	private static Engine engine;
 
 	private boolean paused=false;
@@ -93,6 +98,16 @@ public class MyGame extends VariableFrameRateGame
 
 		// ------------- positioning the camera -------------
 		(engine.getRenderSystem().getViewport("MAIN").getCamera()).setLocation(new Vector3f(0,0,5));
+
+		isMounted = true;
+
+		//INPUT SECTION
+		im = engine.getInputManager();
+		FwdAction fwdAction = new FwdAction(this);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.W, fwdAction,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+		System.out.println("Print works");
 	}
 
 	@Override
@@ -113,6 +128,9 @@ public class MyGame extends VariableFrameRateGame
 		Vector3f hud2Color = new Vector3f(0,0,1);
 		(engine.getHUDmanager()).setHUD1(dispStr1, hud1Color, 15, 15);
 		(engine.getHUDmanager()).setHUD2(dispStr2, hud2Color, 500, 15);
+
+		//update input manager
+		im.update((float) elapsTime);
 	}
 
 	@Override
@@ -151,4 +169,6 @@ public class MyGame extends VariableFrameRateGame
 			}
 		super.keyPressed(e);
 	}
+
+	public GameObject getAvatar() { return dol; }
 }
