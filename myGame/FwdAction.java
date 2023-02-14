@@ -19,7 +19,6 @@ public class FwdAction extends AbstractInputAction
     @Override
     public void performAction(float time, Event e)
     { 
-        System.out.println("W button presses");
         av = game.getAvatar();
         oldPosition = av.getWorldLocation();
         fwdDirection = new Vector4f(0f,0f,1f,1f);

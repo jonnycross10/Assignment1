@@ -12,6 +12,7 @@ import javax.swing.*;
 import org.joml.*;
 
 import myGame.FwdAction;
+import myGame.TurnAction;
 
 public class MyGame extends VariableFrameRateGame
 {
@@ -104,10 +105,13 @@ public class MyGame extends VariableFrameRateGame
 		//INPUT SECTION
 		im = engine.getInputManager();
 		FwdAction fwdAction = new FwdAction(this);
+		TurnAction turnAction = new TurnAction(this);
 
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.W, fwdAction,
-		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
-		System.out.println("Print works");
+			InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Axis.X, turnAction,
+			InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
 	}
 
 	@Override
