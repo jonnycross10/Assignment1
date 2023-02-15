@@ -120,7 +120,7 @@ public class MyGame extends VariableFrameRateGame
 		lastFrameTime = currFrameTime;
 		currFrameTime = System.currentTimeMillis();
 		if (!paused) elapsTime += (currFrameTime - lastFrameTime) / 1000.0;
-		dol.setLocalRotation((new Matrix4f()).rotation((float)elapsTime, 0, 1, 0));
+		//dol.setLocalRotation((new Matrix4f()).rotation((float)elapsTime, 0, 1, 0)); THIS BITCH??????
 
 		// build and set HUD
 		int elapsTimeSec = Math.round((float)elapsTime);
@@ -134,7 +134,7 @@ public class MyGame extends VariableFrameRateGame
 		(engine.getHUDmanager()).setHUD2(dispStr2, hud2Color, 500, 15);
 
 		//update input manager
-		im.update((float) elapsTime);
+		im.update((float) elapsTime);// can prob take out
 	}
 
 	@Override
