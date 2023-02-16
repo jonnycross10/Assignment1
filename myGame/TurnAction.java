@@ -19,11 +19,22 @@ public class TurnAction extends AbstractInputAction
 
     @Override
     public void performAction(float time, Event e)
-    { 
+    {   
         float keyValue = e.getValue();
-        System.out.println(keyValue);
-        if (keyValue > -.2 && keyValue < .2) return; // deadzone
+        String inputName = e.getComponent().getName(); //A, D, and X Axis
+        if (keyValue > -.2 && keyValue < .2) return; // deadzone (works for A and D)
+        float yawValue = keyValue;
+        switch(inputName){
+            case "A":
+                yawValue = -.5f;
+                break;
+            case "D":
+                yawValue = .5f;
+                break;
+            default:
+                break;
+        }
         av = game.getAvatar();
-        av.yaw(keyValue);
+        av.yaw(yawValue);
     } 
 }

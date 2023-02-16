@@ -19,11 +19,14 @@ public class FwdAction extends AbstractInputAction
     @Override
     public void performAction(float time, Event e)
     { 
+        String inputName = e.getComponent().getName(); // W and S
+        System.out.println(inputName);
+        float keyValue = inputName == "W" ? .01f : -.01f;
         av = game.getAvatar();
         oldPosition = av.getWorldLocation();
         fwdDirection = new Vector4f(0f,0f,1f,1f);
         fwdDirection.mul(av.getWorldRotation());
-        fwdDirection.mul(0.01f);
+        fwdDirection.mul(keyValue);
         newPosition = oldPosition.add(fwdDirection.x(),
         fwdDirection.y(), fwdDirection.z());
         av.setLocalLocation(newPosition);
