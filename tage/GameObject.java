@@ -386,4 +386,18 @@ public class GameObject
 			Engine.getEngine().getRenderSystem().addTexture((TextureImage)this);
 		}
 	}
+
+	public void yaw(float x){
+
+		float keyValue = x;
+        System.out.println(keyValue);
+        if (keyValue > -.2 && keyValue < .2) return; // deadzone
+        System.out.println("rotating");
+        Matrix4f oldRotation = this.getWorldRotation();
+        Vector4f oldUp = new Vector4f(0f,1f,0f,1f).mul(oldRotation); 
+        Matrix4f rotAroundAvatarUp = new Matrix4f().rotation((-.01f * keyValue), new Vector3f(oldUp.x(), oldUp.y(), oldUp.z())); 
+        Matrix4f newRotation = oldRotation; 
+        newRotation.mul(rotAroundAvatarUp); 
+        this.setLocalRotation(newRotation);
+	}
 }

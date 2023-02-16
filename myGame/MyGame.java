@@ -110,6 +110,12 @@ public class MyGame extends VariableFrameRateGame
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.W, fwdAction,
 			InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
 
+		// im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.A, fwdAction,
+		// InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		// im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.D, fwdAction,
+		// InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
 		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Axis.X, turnAction,
 			InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
 	}
