@@ -108,6 +108,15 @@ public class MyGame extends VariableFrameRateGame
 		TurnAction turnAction = new TurnAction(this);
 		PitchAction pitchAction = new PitchAction(this);
 
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.UP, pitchAction,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.DOWN, pitchAction,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Axis.RY, pitchAction,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.W, fwdAction,
 			InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
 		
@@ -123,12 +132,11 @@ public class MyGame extends VariableFrameRateGame
 
 		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Axis.X, turnAction,
 			InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
-		
-		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.UP, pitchAction,
+
+		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Axis.Y, fwdAction,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
 
-		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.DOWN, pitchAction,
-		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+		
 	}
 
 	@Override

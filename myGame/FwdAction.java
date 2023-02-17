@@ -19,14 +19,26 @@ public class FwdAction extends AbstractInputAction
     @Override
     public void performAction(float time, Event e)
     { 
-        String inputName = e.getComponent().getName(); // W and S
+        float keyValue = e.getValue();
+        String inputName = e.getComponent().getName(); // W, S, Y Axis
         System.out.println(inputName);
-        float keyValue = inputName == "W" ? .01f : -.01f;
+        if (keyValue > -.2 && keyValue < .2) return; 
+        float yawValue = keyValue *-.075f;
+        switch(inputName){
+            case "W":
+                yawValue = .05f;
+                break;
+            case "S":
+                yawValue = -.05f;
+                break;
+            default:
+                break;
+        }
         av = game.getAvatar();
         oldPosition = av.getWorldLocation();
         fwdDirection = new Vector4f(0f,0f,1f,1f);
         fwdDirection.mul(av.getWorldRotation());
-        fwdDirection.mul(keyValue);
+        fwdDirection.mul(yawValue);
         newPosition = oldPosition.add(fwdDirection.x(),
         fwdDirection.y(), fwdDirection.z());
         av.setLocalLocation(newPosition);
