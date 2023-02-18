@@ -201,6 +201,10 @@ public class MyGame extends VariableFrameRateGame
 
 	public GameObject getAvatar() { return dol; }
 
+	public boolean getMounted() { return isMounted; }
+
+	public Engine getEngine() { return engine; }
+
 	public void mountCam(){
 		Vector3f loc, fwd, up, right;
 		Camera cam;
