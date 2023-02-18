@@ -92,7 +92,9 @@ public class MyGame extends VariableFrameRateGame
 
 	@Override
 	public void initializeGame()
-	{	lastFrameTime = System.currentTimeMillis();
+	{	
+		isMounted = true;
+		lastFrameTime = System.currentTimeMillis();
 		currFrameTime = System.currentTimeMillis();
 		elapsTime = 0.0;
 		(engine.getRenderSystem()).setWindowDimensions(1900,1000);
@@ -141,7 +143,8 @@ public class MyGame extends VariableFrameRateGame
 
 	@Override
 	public void update()
-	{	// rotate dolphin if not paused
+	{		
+		// rotate dolphin if not paused
 		lastFrameTime = currFrameTime;
 		currFrameTime = System.currentTimeMillis();
 		if (!paused) elapsTime += (currFrameTime - lastFrameTime) / 1000.0;
@@ -160,7 +163,10 @@ public class MyGame extends VariableFrameRateGame
 
 		//update input manager
 		im.update((float) elapsTime);// can prob take out
-		
+
+		if(isMounted) {
+			mountCam();
+		}
 	}
 
 	@Override
@@ -183,22 +189,44 @@ public class MyGame extends VariableFrameRateGame
 				newLocation = loc.add(fwd.mul(-.02f));
 				dol.setLocalLocation(newLocation);
 				break;
-			case KeyEvent.VK_4: // view from dolphin
-				// to "ride" the dolphin, move this code to update()
-				cam = (engine.getRenderSystem()
-				.getViewport("MAIN").getCamera());
-				loc = dol.getWorldLocation();
-				fwd = dol.getWorldForwardVector();
-				up = dol.getWorldUpVector();
-				right = dol.getWorldRightVector();
-				cam.setU(right);
-				cam.setV(up);
-				cam.setN(fwd);
-				cam.setLocation(loc.add(up.mul(1.3f)).add(fwd.mul(-2.5f)));
+			case KeyEvent.VK_SPACE: // view from dolphin
+				if(isMounted){
+					dismountCam(); //somewhat redundant
+				}
+				isMounted = !isMounted;
 				break;
 			}
 		super.keyPressed(e);
 	}
 
 	public GameObject getAvatar() { return dol; }
+
+	public void mountCam(){
+		Vector3f loc, fwd, up, right;
+		Camera cam;
+		cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+		loc = dol.getWorldLocation(); //TODO one of these may help with rolling
+		fwd = dol.getWorldForwardVector();
+		up = dol.getWorldUpVector();
+		right = dol.getWorldRightVector();
+		cam.setU(right);
+		cam.setV(up);
+		cam.setN(fwd);
+		cam.setLocation(loc.add(up.mul(1.3f)).add(fwd.mul(-2.5f)));
+	}
+
+	public void dismountCam() {
+		System.out.println("dismounted");
+		Vector3f loc, fwd, up, right;
+		Camera cam;
+		cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+		loc = dol.getWorldLocation(); //TODO one of these may help with rolling
+		fwd = dol.getWorldForwardVector();
+		up = dol.getWorldUpVector();
+		right = dol.getWorldRightVector();
+		cam.setU(right);
+		cam.setV(up);
+		cam.setN(fwd);
+		cam.setLocation(loc.add(right.mul(-1f)).add(up.mul(.3f)));
+	}
 }

@@ -3,7 +3,6 @@ import tage.*;
 import tage.input.action.AbstractInputAction;
 import net.java.games.input.Event;
 import org.joml.*;
-import myGame.MyGame;
 
 public class FwdAction extends AbstractInputAction
 { 
