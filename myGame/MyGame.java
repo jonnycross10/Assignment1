@@ -207,6 +207,9 @@ public class MyGame extends VariableFrameRateGame
 		if(!camCloseToDol()) dismountCam();
 
 		updateScore();
+
+		//double score if finished in under a minute and a half
+		if(elapsTimeSec <90 && score == 3) score = score*2;
 	}
 
 	@Override
@@ -257,7 +260,7 @@ public class MyGame extends VariableFrameRateGame
 		//if so, update score and delete prize 
 		//TODO could be done with loop through an arraylist if time
 		if(withinDistance(camLoc, cub1Loc, camPrizeProximity) && cub1Active){
-			score++;
+			score++;			
 			cub1Active =false;
 			engine.getSceneGraph().removeGameObject(cub1);
 			
