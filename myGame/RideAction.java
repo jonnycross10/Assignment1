@@ -10,6 +10,7 @@ public class RideAction extends AbstractInputAction
     private GameObject av;
     private Vector3f oldPosition, newPosition;
     private Vector4f fwdDirection;
+    private boolean isMounted;
 
     public RideAction(MyGame g){ 
         game = g;
@@ -18,9 +19,11 @@ public class RideAction extends AbstractInputAction
     @Override
     public void performAction(float time, Event e)
     { 
-
-
-        //change the bool at the end
-        
+        System.out.println("button pushed");
+        isMounted = game.getMounted();
+        if(isMounted){
+            game.dismountCam();
+        }
+        game.setMounted(!isMounted);
     }
 }

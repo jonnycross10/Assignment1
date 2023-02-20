@@ -140,6 +140,7 @@ public class MyGame extends VariableFrameRateGame
 		FwdAction fwdAction = new FwdAction(this);
 		TurnAction turnAction = new TurnAction(this);
 		PitchAction pitchAction = new PitchAction(this);
+		RideAction ride = new RideAction(this);
 
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.UP, pitchAction,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
@@ -168,7 +169,9 @@ public class MyGame extends VariableFrameRateGame
 
 		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Axis.Y, fwdAction,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
-
+		
+		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Button._0, ride,
+		InputManager.INPUT_ACTION_TYPE.ON_PRESS_ONLY);
 		
 	}
 
@@ -239,6 +242,8 @@ public class MyGame extends VariableFrameRateGame
 	public GameObject getAvatar() { return dol; }
 
 	public boolean getMounted() { return isMounted; }
+
+	public void setMounted(boolean mountStatus) {isMounted = mountStatus;}
 
 	public Engine getEngine() { return engine; }
 
