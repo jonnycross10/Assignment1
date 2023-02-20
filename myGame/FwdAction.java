@@ -64,11 +64,8 @@ public class FwdAction extends AbstractInputAction
             Vector3f fwd;
             //set camera
 		    cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
-            //set the forward vector
-            //fwd = cam.getN().add(cam.getN().mul(-1f*yawValue));
             //update the forward vector
-            //cam.setN(fwd);
-            cam.setLocation(cam.getLocation().add(cam.getN().mul(yawValue)));
+            cam.setLocation(cam.getLocation().add(cam.getN().mul(yawValue))); //TODO move to engine??
         }
     }
 }
