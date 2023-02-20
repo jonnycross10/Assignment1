@@ -4,11 +4,16 @@ import tage.GameObject;
 import tage.input.action.AbstractInputAction;
 import net.java.games.input.Event;
 
+import tage.*;
+import org.joml.*;
+
 
 public class PitchAction extends AbstractInputAction
 {
     private MyGame game;
     private GameObject av;
+
+    private boolean isMounted;
 
     public PitchAction(MyGame game){
         this.game = game;
@@ -17,23 +22,51 @@ public class PitchAction extends AbstractInputAction
     @Override
     public void performAction(float time, Event e)
     {   
+        Engine engine = game.getEngine();
+        isMounted = game.getMounted();
         float keyValue = e.getValue();
         String inputName = e.getComponent().getName(); //A, D, and X Axis
         System.out.println(inputName);
         if (keyValue > -.2 && keyValue < .2) return; // deadzone (works for A and D)
         float pitchValue = keyValue;
-        switch(inputName){
-            case "Up":
-                pitchValue = .5f;
-                break;
-            case "Down":
-                pitchValue = -.5f;
-                break;
-            default:
-                break;
+        if(isMounted){
+            switch(inputName){
+                case "Up":
+                    pitchValue = .5f;
+                    break;
+                case "Down":
+                    pitchValue = -.5f;
+                    break;
+                default:
+                    break;
+            }
+            
+            av = game.getAvatar();
+            av.pitch(pitchValue);
         }
-        
-        av = game.getAvatar();
-        av.pitch(pitchValue);
+        else {
+            switch(inputName){
+                case "Up":
+                    pitchValue = -.5f;
+                    break;
+                case "Down":
+                    pitchValue = .5f;
+                    break;
+                default:
+                    break;
+            }
+            Camera cam;
+		    cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+            //rotate the V and N axes around U
+            Vector3f nVector = cam.getN();
+            Vector3f uVector = cam.getU();
+            Vector3f vVector = cam.getV();
+
+            Vector3f newV = vVector.rotateAxis(-.01f *pitchValue, uVector.x, uVector.y ,uVector.z);
+            Vector3f newN = nVector.rotateAxis(-.01f *pitchValue, uVector.x, uVector.y ,uVector.z);
+
+            cam.setV(newV);
+            cam.setN(newN);
+        }
     } 
 }
