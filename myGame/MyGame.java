@@ -32,7 +32,12 @@ public class MyGame extends VariableFrameRateGame
 	private Light light1;
 
 	private int score;
-	private final float camDolMinProximity=10;
+	private final float camDolMinProximity=10f;
+	private final float camPrizeProximity=3f;
+
+	private boolean cub1Active;
+	private boolean cub2Active;
+	private boolean cub3Active;
 
 	public MyGame() { super(); }
 
@@ -117,6 +122,9 @@ public class MyGame extends VariableFrameRateGame
 	{	
 		isMounted = true;
 		score = 0;
+		cub1Active = true;
+		cub2Active = true;
+		cub3Active = true;
 		lastFrameTime = System.currentTimeMillis();
 		currFrameTime = System.currentTimeMillis();
 		elapsTime = 0.0;
@@ -193,7 +201,9 @@ public class MyGame extends VariableFrameRateGame
 			mountCam();
 		}
 		
-		if(!camCloseToDol()) dismountCam();;
+		if(!camCloseToDol()) dismountCam();
+
+		updateScore();
 	}
 
 	@Override
@@ -231,6 +241,33 @@ public class MyGame extends VariableFrameRateGame
 	public boolean getMounted() { return isMounted; }
 
 	public Engine getEngine() { return engine; }
+
+	public void updateScore(){
+		//checks if cam is intersecting with prize
+		Camera cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+		Vector3f camLoc = cam.getLocation();
+		Vector3f cub1Loc = cub1.getWorldLocation();
+		Vector3f cub2Loc = cub2.getWorldLocation();
+		Vector3f cub3Loc = cub3.getWorldLocation();
+		//if so, update score and delete prize 
+		//TODO could be done with loop through an arraylist if time
+		if(withinDistance(camLoc, cub1Loc, camPrizeProximity) && cub1Active){
+			score++;
+			cub1Active =false;
+			engine.getSceneGraph().removeGameObject(cub1);
+			
+		}
+		else if (withinDistance(camLoc, cub2Loc, camPrizeProximity) && cub2Active){
+			score++;
+			cub2Active = false;
+			engine.getSceneGraph().removeGameObject(cub2);
+		}
+		else if (withinDistance(camLoc, cub3Loc, camPrizeProximity) && cub3Active){
+			score++;
+			cub3Active = false;
+			engine.getSceneGraph().removeGameObject(cub3);
+		}
+	}
 
 	public void mountCam(){
 		Vector3f loc, fwd, up, right;
