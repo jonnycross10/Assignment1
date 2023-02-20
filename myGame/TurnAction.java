@@ -52,15 +52,7 @@ public class TurnAction extends AbstractInputAction
             Camera cam;
 		    cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
             //rotate the U and N axes around V
-            Vector3f nVector = cam.getN();
-            Vector3f uVector = cam.getU();
-            Vector3f vVector = cam.getV();
-
-            Vector3f newU = uVector.rotateAxis(-.01f *yawValue, vVector.x, vVector.y ,vVector.z);
-            Vector3f newN = nVector.rotateAxis(-.01f *yawValue, vVector.x, vVector.y ,vVector.z);
-
-            cam.setU(newU);
-            cam.setN(newN);
+            cam.yaw(yawValue);
         }
     } 
 }

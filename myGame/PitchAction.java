@@ -40,7 +40,6 @@ public class PitchAction extends AbstractInputAction
                 default:
                     break;
             }
-            
             av = game.getAvatar();
             av.pitch(pitchValue);
         }
@@ -58,15 +57,7 @@ public class PitchAction extends AbstractInputAction
             Camera cam;
 		    cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
             //rotate the V and N axes around U
-            Vector3f nVector = cam.getN();
-            Vector3f uVector = cam.getU();
-            Vector3f vVector = cam.getV();
-
-            Vector3f newV = vVector.rotateAxis(-.01f *pitchValue, uVector.x, uVector.y ,uVector.z);
-            Vector3f newN = nVector.rotateAxis(-.01f *pitchValue, uVector.x, uVector.y ,uVector.z);
-
-            cam.setV(newV);
-            cam.setN(newN);
+            cam.pitch(pitchValue);
         }
     } 
 }

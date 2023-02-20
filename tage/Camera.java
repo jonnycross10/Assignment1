@@ -96,4 +96,28 @@ public class Camera
 
 		return(view);
 	}
+
+	public void yaw(float value){
+		Vector3f nVector = this.getN();
+            Vector3f uVector = this.getU();
+            Vector3f vVector = this.getV();
+
+            Vector3f newU = uVector.rotateAxis(-.01f *value, vVector.x, vVector.y ,vVector.z);
+            Vector3f newN = nVector.rotateAxis(-.01f *value, vVector.x, vVector.y ,vVector.z);
+
+            this.setU(newU);
+            this.setN(newN);
+	}
+
+	public void pitch(float value){
+		Vector3f nVector = this.getN();
+		Vector3f uVector = this.getU();
+		Vector3f vVector = this.getV();
+
+		Vector3f newV = vVector.rotateAxis(-.01f *value, uVector.x, uVector.y ,uVector.z);
+		Vector3f newN = nVector.rotateAxis(-.01f *value, uVector.x, uVector.y ,uVector.z);
+
+		this.setV(newV);
+		this.setN(newN);
+	}
 }

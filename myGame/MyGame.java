@@ -14,6 +14,8 @@ import org.joml.*;
 import myGame.FwdAction;
 import myGame.TurnAction;
 
+import java.util.Random;
+
 public class MyGame extends VariableFrameRateGame
 {
 	private boolean isMounted;
@@ -24,10 +26,12 @@ public class MyGame extends VariableFrameRateGame
 	private int counter=0;
 	private double lastFrameTime, currFrameTime, elapsTime;
 
-	private GameObject dol, cub, x, y, z;
+	private GameObject dol, cub1, cub2, cub3, x, y, z;
 	private ObjShape dolS, cubS, linxS, linyS, linzS;
 	private TextureImage doltx, prize;
 	private Light light1;
+
+	private int score;
 
 	public MyGame() { super(); }
 
@@ -74,12 +78,29 @@ public class MyGame extends VariableFrameRateGame
 		dol.setLocalTranslation(initialTranslation);
 		dol.setLocalScale(initialScale);
 
-		// build cube at the right of the window
-		cub = new GameObject(GameObject.root(), cubS, prize);
-		initialTranslation = (new Matrix4f()).translation(3,0,0);
+		// build cubes
+		Random rand = new Random();
+		int rand1 = rand.nextInt(50)-25;
+		int rand2 = rand.nextInt(50)-25;
+		int rand3 = rand.nextInt(50)-25;
+
+		cub1 = new GameObject(GameObject.root(), cubS, prize);
+		initialTranslation = (new Matrix4f()).translation(rand1,rand2,rand3);
 		initialScale = (new Matrix4f()).scaling(0.5f);
-		cub.setLocalTranslation(initialTranslation);
-		cub.setLocalScale(initialScale);
+		cub1.setLocalTranslation(initialTranslation);
+		cub1.setLocalScale(initialScale);
+
+		cub2 = new GameObject(GameObject.root(), cubS, prize);
+		initialTranslation = (new Matrix4f()).translation(rand3,rand1,rand2);
+		initialScale = (new Matrix4f()).scaling(0.5f);
+		cub2.setLocalTranslation(initialTranslation);
+		cub2.setLocalScale(initialScale);
+
+		cub3 = new GameObject(GameObject.root(), cubS, prize);
+		initialTranslation = (new Matrix4f()).translation(rand2,rand3,rand1);
+		initialScale = (new Matrix4f()).scaling(0.5f);
+		cub3.setLocalTranslation(initialTranslation);
+		cub3.setLocalScale(initialScale);
 	}
 
 	@Override
@@ -94,6 +115,7 @@ public class MyGame extends VariableFrameRateGame
 	public void initializeGame()
 	{	
 		isMounted = true;
+		score = 0;
 		lastFrameTime = System.currentTimeMillis();
 		currFrameTime = System.currentTimeMillis();
 		elapsTime = 0.0;
@@ -148,18 +170,20 @@ public class MyGame extends VariableFrameRateGame
 		lastFrameTime = currFrameTime;
 		currFrameTime = System.currentTimeMillis();
 		if (!paused) elapsTime += (currFrameTime - lastFrameTime) / 1000.0;
-		//dol.setLocalRotation((new Matrix4f()).rotation((float)elapsTime, 0, 1, 0)); THIS BITCH??????
 
 		// build and set HUD
 		int elapsTimeSec = Math.round((float)elapsTime);
 		String elapsTimeStr = Integer.toString(elapsTimeSec);
 		String counterStr = Integer.toString(counter);
+		String scoreDisplayStr = "Score: " + Integer.toString(score);
 		String dispStr1 = "Time = " + elapsTimeStr;
 		String dispStr2 = "Keyboard hits = " + counterStr;
 		Vector3f hud1Color = new Vector3f(1,0,0);
 		Vector3f hud2Color = new Vector3f(0,0,1);
+		Vector3f hud3Color = new Vector3f(0,1,0);
 		(engine.getHUDmanager()).setHUD1(dispStr1, hud1Color, 15, 15);
 		(engine.getHUDmanager()).setHUD2(dispStr2, hud2Color, 500, 15);
+		(engine.getHUDmanager()).setHUD2(scoreDisplayStr, hud3Color, 600, 15);
 
 		//update input manager
 		im.update((float) elapsTime);// can prob take out
