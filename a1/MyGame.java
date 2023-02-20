@@ -1,4 +1,4 @@
-package myGame;
+package a1;
 
 import tage.*;
 import tage.input.InputManager;
@@ -11,8 +11,8 @@ import java.io.*;
 import javax.swing.*;
 import org.joml.*;
 
-import myGame.FwdAction;
-import myGame.TurnAction;
+import a1.FwdAction;
+import a1.TurnAction;
 
 import java.util.Random;
 
