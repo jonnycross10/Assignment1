@@ -28,6 +28,7 @@ public class PitchAction extends AbstractInputAction
         String inputName = e.getComponent().getName(); //A, D, and X Axis
         System.out.println(inputName);
         if (keyValue > -.2 && keyValue < .2) return; // deadzone (works for A and D)
+        if (!game.camCloseToDol()) return;
         float pitchValue = keyValue;
         if(isMounted){
             switch(inputName){

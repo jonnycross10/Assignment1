@@ -24,6 +24,7 @@ public class FwdAction extends AbstractInputAction
         float keyValue = e.getValue();
         String inputName = e.getComponent().getName(); // W, S, Y Axis
         if (keyValue > -.2 && keyValue < .2) return; 
+        if (!game.camCloseToDol()) return;
         float yawValue = keyValue *-.075f;
         if(isMounted){
             System.out.println("moving dolphin");

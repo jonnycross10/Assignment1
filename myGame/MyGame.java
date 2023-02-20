@@ -32,6 +32,7 @@ public class MyGame extends VariableFrameRateGame
 	private Light light1;
 
 	private int score;
+	private final float camDolMinProximity=10;
 
 	public MyGame() { super(); }
 
@@ -191,6 +192,8 @@ public class MyGame extends VariableFrameRateGame
 		if(isMounted) {
 			mountCam();
 		}
+		
+		if(!camCloseToDol()) dismountCam();;
 	}
 
 	@Override
@@ -256,5 +259,26 @@ public class MyGame extends VariableFrameRateGame
 		cam.setV(up);
 		cam.setN(fwd);
 		cam.setLocation(loc.add(right.mul(-1f)).add(up.mul(.3f)));
+	}
+
+	public float checkProximity(float x1, float x2){
+		return Math.abs(x2-x1); 
+	}
+
+	public boolean camCloseToDol(){
+		Camera cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+		Vector3f dolLoc = dol.getWorldLocation();
+		Vector3f camLoc = cam.getLocation();
+		return withinDistance(camLoc, dolLoc, camDolMinProximity);
+	}
+
+	public boolean withinDistance(Vector3f v1, Vector3f v2, float dist){
+		float dX = checkProximity(v1.x(), v2.x());
+		float dY = checkProximity(v1.y(), v2.y());
+		float dZ = checkProximity(v1.z(), v2.z());
+		if (dX > dist || dY > dist || dZ>dist){
+			return false;
+		}
+		return true;
 	}
 }
