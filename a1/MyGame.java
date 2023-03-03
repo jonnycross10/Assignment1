@@ -95,19 +95,19 @@ public class MyGame extends VariableFrameRateGame
 		int rand3 = rand.nextInt(50)-25;
 
 		cub1 = new GameObject(GameObject.root(), cubS, prize);
-		initialTranslation = (new Matrix4f()).translation(rand1,rand2,rand3);
+		initialTranslation = (new Matrix4f()).translation(rand1,.5f,rand3);
 		initialScale = (new Matrix4f()).scaling(0.5f);
 		cub1.setLocalTranslation(initialTranslation);
 		cub1.setLocalScale(initialScale);
 
 		cub2 = new GameObject(GameObject.root(), cubS, prize);
-		initialTranslation = (new Matrix4f()).translation(rand3,rand1,rand2);
+		initialTranslation = (new Matrix4f()).translation(rand3,.5f,rand2);
 		initialScale = (new Matrix4f()).scaling(0.5f);
 		cub2.setLocalTranslation(initialTranslation);
 		cub2.setLocalScale(initialScale);
 
 		cub3 = new GameObject(GameObject.root(), cubS, prize);
-		initialTranslation = (new Matrix4f()).translation(rand2,rand3,rand1);
+		initialTranslation = (new Matrix4f()).translation(rand2,.5f,rand1);
 		initialScale = (new Matrix4f()).scaling(0.5f);
 		cub3.setLocalTranslation(initialTranslation);
 		cub3.setLocalScale(initialScale);
