@@ -403,8 +403,8 @@ public class GameObject
 		float keyValue = x;
         System.out.println(keyValue);
         if (keyValue > -.2 && keyValue < .2) return; // deadzone
-        Matrix4f oldRotation = this.getWorldRotation();
-		Vector3fc rightVector = this.getWorldRightVector();
+        Matrix4f oldRotation = this.getLocalRotation();
+		Vector3fc rightVector = this.getLocalRightVector();
         Vector4f oldUp = new Vector4f(rightVector.x(),rightVector.y(),rightVector.z(),1f).mul(oldRotation); 
         Matrix4f rotAroundAvatarUp = new Matrix4f().rotation((-.01f * keyValue), new Vector3f(oldUp.x(), oldUp.y(), oldUp.z())); 
         Matrix4f newRotation = oldRotation;
