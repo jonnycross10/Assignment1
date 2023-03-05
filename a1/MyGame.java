@@ -207,6 +207,8 @@ public class MyGame extends VariableFrameRateGame
 
 		// update input manager
 		im.update((float) elapsTime);// can prob take out
+		//TODO organize checks in a better way
+		updateScore();
 
 		if(isMounted) {
 			mountCam();
@@ -216,7 +218,7 @@ public class MyGame extends VariableFrameRateGame
 		
 		if(!camCloseToDol()) dismountCam();
 		if(!isMounted) {
-			updateScore();
+			
 			// recenter if cam is below world
 			reCenterCamBelowMap();
 		}
@@ -224,13 +226,16 @@ public class MyGame extends VariableFrameRateGame
 		// double score if finished in under a minute and a half
 		if(elapsTimeSec <90 && score == 3) score = score*2;
 
+		// check if cubes are active. May want to change to loop/map/arraylist something later
+		if (!cub1Active) spinGameObject(cub1);
+		if (!cub2Active) spinGameObject(cub2);
+		if (!cub3Active) spinGameObject(cub3);
 		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e)
 	{ 	Vector3f loc, fwd, up, right, newLocation;
-		Camera cam;
 		switch (e.getKeyCode())
 			{ case KeyEvent.VK_1:
 				paused = !paused;
@@ -276,19 +281,18 @@ public class MyGame extends VariableFrameRateGame
 		//TODO could be done with loop through an arraylist if time
 		if(withinDistance(camLoc, cub1Loc, camPrizeProximity) && cub1Active){
 			score++;			
-			cub1Active =false;
-			engine.getSceneGraph().removeGameObject(cub1);
-			
+			cub1Active = false;
+			//engine.getSceneGraph().removeGameObject(cub1);
 		}
 		else if (withinDistance(camLoc, cub2Loc, camPrizeProximity) && cub2Active){
 			score++;
 			cub2Active = false;
-			engine.getSceneGraph().removeGameObject(cub2);
+			//engine.getSceneGraph().removeGameObject(cub2);
 		}
 		else if (withinDistance(camLoc, cub3Loc, camPrizeProximity) && cub3Active){
 			score++;
 			cub3Active = false;
-			engine.getSceneGraph().removeGameObject(cub3);
+			//engine.getSceneGraph().removeGameObject(cub3);
 		}
 	}
 
@@ -358,4 +362,13 @@ public class MyGame extends VariableFrameRateGame
 			dol.setLocalLocation(newLoc);
 		}
 	}
+
+	public void spinGameObject(GameObject obj){
+		Matrix4f objRot = obj.getLocalRotation();
+		System.out.println("hitting this code");
+		Matrix4f rotMatrix = (new Matrix4f()).rotation(.01f,0,1,0);
+		objRot = objRot.mul(rotMatrix);
+		obj.setLocalRotation(objRot);
+	}
+
 }
