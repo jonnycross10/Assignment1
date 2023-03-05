@@ -280,14 +280,15 @@ public class MyGame extends VariableFrameRateGame
 		//if so, update score and delete prize 
 		//TODO could be done with loop through an arraylist if time
 		if(withinDistance(camLoc, cub1Loc, camPrizeProximity) && cub1Active){
-			score++;			
+			score++;
 			cub1Active = false;
 			//TODO take away prize texture
 			// initialize child prize
 			child1 = initChildPrizes();
 			// set initial translation
+			
 			camLoc = cam.getLocation();
-			Matrix4f initialTranslation = (new Matrix4f()).translation(camLoc.x(), camLoc.y(), camLoc.z() + .01f);
+			Matrix4f initialTranslation = (new Matrix4f()).translation(score -1f, 1f, 0.2f);
 			child1.setLocalTranslation(initialTranslation);
 			// set child as child of dolphin
 			child1.setParent(dol);
@@ -301,7 +302,7 @@ public class MyGame extends VariableFrameRateGame
 			child2 = initChildPrizes();
 			// set initial translation
 			camLoc = cam.getLocation();
-			Matrix4f initialTranslation = (new Matrix4f()).translation(camLoc.x(), camLoc.y(), camLoc.z() + .01f);
+			Matrix4f initialTranslation = (new Matrix4f()).translation(score -1f,1f,0.2f);
 			child2.setLocalTranslation(initialTranslation);
 			// set child as child of dolphin
 			child2.setParent(dol);
@@ -315,7 +316,7 @@ public class MyGame extends VariableFrameRateGame
 			child3 = initChildPrizes();
 			// set initial translation
 			camLoc = cam.getLocation();
-			Matrix4f initialTranslation = (new Matrix4f()).translation(camLoc.x(), camLoc.y(), camLoc.z() + .01f);
+			Matrix4f initialTranslation = (new Matrix4f()).translation(score -1f,1f,0.2f);
 			child3.setLocalTranslation(initialTranslation);
 			// set child as child of dolphin
 			child3.setParent(dol);
@@ -401,7 +402,7 @@ public class MyGame extends VariableFrameRateGame
 
 	public GameObject initChildPrizes(){
 		GameObject obj = new GameObject(GameObject.root(), cubS, prize);
-		Matrix4f initialScale = (new Matrix4f()).scaling(0.1f);
+		Matrix4f initialScale = (new Matrix4f()).scaling(0.05f);
 		obj.setLocalScale(initialScale);
 		return obj;
 	}
