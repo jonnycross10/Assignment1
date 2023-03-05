@@ -26,7 +26,7 @@ public class MyGame extends VariableFrameRateGame
 	private int counter=0;
 	private double lastFrameTime, currFrameTime, elapsTime;
 
-	private GameObject dol, cub1, cub2, cub3, x, y, z, planeObj;
+	private GameObject dol, cub1, cub2, cub3, x, y, z, planeObj, child1, child2, child3;
 	private ObjShape dolS, cubS, linxS, linyS, linzS;
 	private TextureImage doltx, prize, grass;
 	private Light light1;
@@ -282,17 +282,45 @@ public class MyGame extends VariableFrameRateGame
 		if(withinDistance(camLoc, cub1Loc, camPrizeProximity) && cub1Active){
 			score++;			
 			cub1Active = false;
-			//engine.getSceneGraph().removeGameObject(cub1);
+			//TODO take away prize texture
+			// initialize child prize
+			child1 = initChildPrizes();
+			// set initial translation
+			camLoc = cam.getLocation();
+			Matrix4f initialTranslation = (new Matrix4f()).translation(camLoc.x(), camLoc.y(), camLoc.z() + .01f);
+			child1.setLocalTranslation(initialTranslation);
+			// set child as child of dolphin
+			child1.setParent(dol);
+			child1.propagateTranslation(true);
+			child1.propagateRotation(true);
 		}
 		else if (withinDistance(camLoc, cub2Loc, camPrizeProximity) && cub2Active){
 			score++;
 			cub2Active = false;
-			//engine.getSceneGraph().removeGameObject(cub2);
+			// initialize child prize
+			child2 = initChildPrizes();
+			// set initial translation
+			camLoc = cam.getLocation();
+			Matrix4f initialTranslation = (new Matrix4f()).translation(camLoc.x(), camLoc.y(), camLoc.z() + .01f);
+			child2.setLocalTranslation(initialTranslation);
+			// set child as child of dolphin
+			child2.setParent(dol);
+			child2.propagateTranslation(true);
+			child2.propagateRotation(true);
 		}
 		else if (withinDistance(camLoc, cub3Loc, camPrizeProximity) && cub3Active){
 			score++;
 			cub3Active = false;
-			//engine.getSceneGraph().removeGameObject(cub3);
+			// initialize child prize
+			child3 = initChildPrizes();
+			// set initial translation
+			camLoc = cam.getLocation();
+			Matrix4f initialTranslation = (new Matrix4f()).translation(camLoc.x(), camLoc.y(), camLoc.z() + .01f);
+			child3.setLocalTranslation(initialTranslation);
+			// set child as child of dolphin
+			child3.setParent(dol);
+			child3.propagateTranslation(true);
+			child3.propagateRotation(true);
 		}
 	}
 
@@ -369,6 +397,13 @@ public class MyGame extends VariableFrameRateGame
 		Matrix4f rotMatrix = (new Matrix4f()).rotation(.01f,0,1,0);
 		objRot = objRot.mul(rotMatrix);
 		obj.setLocalRotation(objRot);
+	}
+
+	public GameObject initChildPrizes(){
+		GameObject obj = new GameObject(GameObject.root(), cubS, prize);
+		Matrix4f initialScale = (new Matrix4f()).scaling(0.1f);
+		obj.setLocalScale(initialScale);
+		return obj;
 	}
 
 }

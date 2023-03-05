@@ -27,7 +27,6 @@ public class FwdAction extends AbstractInputAction
         if (!game.camCloseToDol()) return;
         float yawValue = keyValue *-.075f;
         if(isMounted){
-            System.out.println("moving dolphin");
             switch(inputName){
                 case "W":
                     yawValue = .05f;
