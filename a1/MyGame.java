@@ -205,19 +205,26 @@ public class MyGame extends VariableFrameRateGame
 		(engine.getHUDmanager()).setHUD2(dispStr2, hud2Color, 500, 15);
 		(engine.getHUDmanager()).setHUD2(scoreDisplayStr, hud3Color, 600, 15);
 
-		//update input manager
+		// update input manager
 		im.update((float) elapsTime);// can prob take out
 
 		if(isMounted) {
 			mountCam();
+			// recenter if dolphin is below world
+			reCenterDolphBelowMap();
 		}
 		
 		if(!camCloseToDol()) dismountCam();
+		if(!isMounted) {
+			updateScore();
+			// recenter if cam is below world
+			reCenterCamBelowMap();
+		}
 
-		updateScore();
-
-		//double score if finished in under a minute and a half
+		// double score if finished in under a minute and a half
 		if(elapsTimeSec <90 && score == 3) score = score*2;
+
+		
 	}
 
 	@Override
@@ -333,5 +340,22 @@ public class MyGame extends VariableFrameRateGame
 			return false;
 		}
 		return true;
+	}
+
+	public void reCenterCamBelowMap(){
+		Camera cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+		Vector3f camLoc = cam.getLocation();
+		if (camLoc.y() < 0){
+			Vector3f newLoc = new Vector3f(camLoc.x(),.5f, camLoc.z());
+			cam.setLocation(newLoc);
+		}
+	}
+
+	public void reCenterDolphBelowMap(){
+		Vector3f dolLoc = dol.getLocalLocation();
+		if (dolLoc.y() < 0){
+			Vector3f newLoc = new Vector3f(dolLoc.x(), 1f, dolLoc.z());
+			dol.setLocalLocation(newLoc);
+		}
 	}
 }
