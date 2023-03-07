@@ -28,7 +28,7 @@ public class MyGame extends VariableFrameRateGame
 
 	private GameObject dol, cub1, cub2, cub3, x, y, z, planeObj, child1, child2, child3;
 	private ObjShape dolS, cubS, linxS, linyS, linzS;
-	private TextureImage doltx, prize, grass;
+	private TextureImage doltx, prize, grass, prizeAttained;
 	private Light light1;
 
 	private int score;
@@ -65,6 +65,7 @@ public class MyGame extends VariableFrameRateGame
 	{	doltx = new TextureImage("Dolphin_HighPolyUV.png");
 		prize = new TextureImage("prize.png");
 		grass = new TextureImage("grass-pattern.jpg");
+		prizeAttained = new TextureImage("silver-background.jpg");
 	}
 
 	@Override
@@ -282,7 +283,8 @@ public class MyGame extends VariableFrameRateGame
 		if(withinDistance(camLoc, cub1Loc, camPrizeProximity) && cub1Active){
 			score++;
 			cub1Active = false;
-			//TODO take away prize texture
+			//take away prize texture
+			cub1.setTextureImage(prizeAttained);
 			// initialize child prize
 			child1 = initChildPrizes();
 			// set initial translation
@@ -298,6 +300,8 @@ public class MyGame extends VariableFrameRateGame
 		else if (withinDistance(camLoc, cub2Loc, camPrizeProximity) && cub2Active){
 			score++;
 			cub2Active = false;
+			//take away prize texture
+			cub2.setTextureImage(prizeAttained);
 			// initialize child prize
 			child2 = initChildPrizes();
 			// set initial translation
@@ -312,6 +316,8 @@ public class MyGame extends VariableFrameRateGame
 		else if (withinDistance(camLoc, cub3Loc, camPrizeProximity) && cub3Active){
 			score++;
 			cub3Active = false;
+			//take away prize texture
+			cub3.setTextureImage(prizeAttained);
 			// initialize child prize
 			child3 = initChildPrizes();
 			// set initial translation
