@@ -389,7 +389,6 @@ public class GameObject
 
 	public void yaw(float x){
 		float keyValue = x;
-        System.out.println(keyValue);
         if (keyValue > -.2 && keyValue < .2) return; // deadzone
         Matrix4f oldRotation = this.getLocalRotation();
         Vector3f upVector = this.getLocalUpVector(); 
@@ -400,7 +399,6 @@ public class GameObject
 
 	public void pitch(float x){
 		float keyValue = x;
-        System.out.println(keyValue);
         if (keyValue > -.2 && keyValue < .2) return; // deadzone
         Matrix4f oldRotation = this.getLocalRotation();
 		Vector3f rightVector = this.getLocalRightVector();

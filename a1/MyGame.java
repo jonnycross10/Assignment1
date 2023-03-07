@@ -2,6 +2,8 @@ package a1;
 
 import tage.*;
 import tage.input.InputManager;
+import tage.nodeControllers.BounceController;
+import tage.nodeControllers.RotationController;
 import tage.shapes.*;
 
 import java.lang.Math;
@@ -40,6 +42,8 @@ public class MyGame extends VariableFrameRateGame
 	private boolean cub3Active;
 
 	private Plane plane;
+
+	private NodeController rc,bc;
 
 	public MyGame() { super(); }
 
@@ -137,6 +141,14 @@ public class MyGame extends VariableFrameRateGame
 		lastFrameTime = System.currentTimeMillis();
 		currFrameTime = System.currentTimeMillis();
 		elapsTime = 0.0;
+
+		rc = new RotationController(engine, new Vector3f(0,1,0), .001f);
+		
+
+		bc = new BounceController(engine, new Vector3f(0,1,0), .001f, 5f);
+
+		(engine.getSceneGraph()).addNodeController(rc);
+		(engine.getSceneGraph()).addNodeController(bc);
 		(engine.getRenderSystem()).setWindowDimensions(1900,1000);
 
 		// ------------- positioning the camera -------------
@@ -228,9 +240,10 @@ public class MyGame extends VariableFrameRateGame
 		if(elapsTimeSec <90 && score == 3) score = score*2;
 
 		// check if cubes are active. May want to change to loop/map/arraylist something later
-		if (!cub1Active) spinGameObject(cub1);
-		if (!cub2Active) spinGameObject(cub2);
-		if (!cub3Active) spinGameObject(cub3);
+		//TODO get rid of once Node controllers are finished
+		//if (!cub1Active) spinGameObject(cub1);
+		//if (!cub2Active) spinGameObject(cub2);
+		//if (!cub3Active) spinGameObject(cub3);
 		
 	}
 
@@ -283,6 +296,11 @@ public class MyGame extends VariableFrameRateGame
 		if(withinDistance(camLoc, cub1Loc, camPrizeProximity) && cub1Active){
 			score++;
 			cub1Active = false;
+			//enable Node Controllers
+			rc.addTarget(cub1);
+			if(!rc.isEnabled()) rc.toggle();
+			bc.addTarget(cub1);
+			if (!bc.isEnabled()) bc.toggle();
 			//take away prize texture
 			cub1.setTextureImage(prizeAttained);
 			// initialize child prize
@@ -300,6 +318,11 @@ public class MyGame extends VariableFrameRateGame
 		else if (withinDistance(camLoc, cub2Loc, camPrizeProximity) && cub2Active){
 			score++;
 			cub2Active = false;
+			//enable Node Controllers
+			rc.addTarget(cub2);
+			if(!rc.isEnabled()) rc.toggle();
+			bc.addTarget(cub2);
+			if (!bc.isEnabled()) bc.toggle();
 			//take away prize texture
 			cub2.setTextureImage(prizeAttained);
 			// initialize child prize
@@ -316,6 +339,11 @@ public class MyGame extends VariableFrameRateGame
 		else if (withinDistance(camLoc, cub3Loc, camPrizeProximity) && cub3Active){
 			score++;
 			cub3Active = false;
+			//enable Node Controllers
+			rc.addTarget(cub3);
+			if(!rc.isEnabled()) rc.toggle();
+			bc.addTarget(cub3);
+			if (!bc.isEnabled()) bc.toggle();
 			//take away prize texture
 			cub3.setTextureImage(prizeAttained);
 			// initialize child prize
@@ -329,6 +357,7 @@ public class MyGame extends VariableFrameRateGame
 			child3.propagateTranslation(true);
 			child3.propagateRotation(true);
 		}
+
 	}
 
 	public void mountCam(){
