@@ -151,8 +151,7 @@ public class MyGame extends VariableFrameRateGame
 		(engine.getSceneGraph()).addNodeController(bc);
 		(engine.getRenderSystem()).setWindowDimensions(1900,1000);
 
-		// ------------- positioning the camera -------------
-		(engine.getRenderSystem().getViewport("MAIN").getCamera()).setLocation(new Vector3f(0,0,5));
+		
 
 		isMounted = true;
 
@@ -245,6 +244,13 @@ public class MyGame extends VariableFrameRateGame
 		//if (!cub2Active) spinGameObject(cub2);
 		//if (!cub3Active) spinGameObject(cub3);
 		
+	}
+
+	@Override
+	public void createViewports(){
+		(engine.getRenderSystem()).addViewport("MAIN",0,0,1,1);
+		// ------------- positioning the camera -------------
+		(engine.getRenderSystem().getViewport("MAIN").getCamera()).setLocation(new Vector3f(0,0,5));
 	}
 
 	@Override
