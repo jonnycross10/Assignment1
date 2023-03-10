@@ -161,10 +161,11 @@ public class MyGame extends VariableFrameRateGame
 		TurnAction turnAction = new TurnAction(this);
 		PitchAction pitchAction = new PitchAction(this);
 		RideAction ride = new RideAction(this);
+		ZoomAction zoom = new ZoomAction(this);
+		PanAction pan = new PanAction(this);
 
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.A, turnAction,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
-
 
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.D, turnAction,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
@@ -192,6 +193,24 @@ public class MyGame extends VariableFrameRateGame
 		
 		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Button._0, ride,
 		InputManager.INPUT_ACTION_TYPE.ON_PRESS_ONLY);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.Y, zoom,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.H, zoom,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.I, pan,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.K, pan,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.J, pan,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
+
+		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.L, pan,
+		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
 		
 	}
 
@@ -249,8 +268,21 @@ public class MyGame extends VariableFrameRateGame
 	@Override
 	public void createViewports(){
 		(engine.getRenderSystem()).addViewport("MAIN",0,0,1,1);
-		// ------------- positioning the camera -------------
+		
+		// Create the smaller viewPort
+		(engine.getRenderSystem()).addViewport("BR",0f, .75f, .25f,.25f);
+		// ------------- positioning the main camera -------------
 		(engine.getRenderSystem().getViewport("MAIN").getCamera()).setLocation(new Vector3f(0,0,5));
+
+
+		Viewport smallVP = engine.getRenderSystem().getViewport("BR");
+		
+		Camera smallCam = smallVP.getCamera();
+		smallCam.setLocation(new Vector3f(0,8,0));
+		// Set U V N All have to be orthogonal
+		smallCam.setU(new Vector3f(0,0,-1));
+		smallCam.setV(new Vector3f(-1,0,0));
+		smallCam.setN(new Vector3f(0,-1,0));
 	}
 
 	@Override
