@@ -224,17 +224,27 @@ public class MyGame extends VariableFrameRateGame
 
 		// build and set HUD
 		int elapsTimeSec = Math.round((float)elapsTime);
-		String elapsTimeStr = Integer.toString(elapsTimeSec);
-		String counterStr = Integer.toString(counter);
 		String scoreDisplayStr = "Score: " + Integer.toString(score);
-		String dispStr1 = "Time = " + elapsTimeStr;
-		String dispStr2 = "Keyboard hits = " + counterStr;
-		Vector3f hud1Color = new Vector3f(1,0,0);
-		Vector3f hud2Color = new Vector3f(0,0,1);
-		Vector3f hud3Color = new Vector3f(0,1,0);
-		(engine.getHUDmanager()).setHUD1(dispStr1, hud1Color, 15, 15);
-		(engine.getHUDmanager()).setHUD2(dispStr2, hud2Color, 500, 15);
-		(engine.getHUDmanager()).setHUD2(scoreDisplayStr, hud3Color, 600, 15);
+		
+		Vector3f dolWorldPosition = dol.getWorldLocation();
+		String locationString = 
+			"X: " + String.valueOf(dolWorldPosition.x()) +
+			"Y: " + String.valueOf(dolWorldPosition.y()) +
+			"Z: " + String.valueOf(dolWorldPosition.z());
+			
+		Vector3f hud1Color = new Vector3f(0,1,0);
+		Vector3f hud2Color = new Vector3f(1,0,0);
+
+		
+
+		int width = (int) Math.ceil((engine.getRenderSystem().getGLCanvas().getWidth()/37.68));
+		int height = (int) Math.ceil((engine.getRenderSystem().getGLCanvas().getHeight()/1.325));
+		System.out.println(engine.getRenderSystem().getGLCanvas().getWidth());
+		System.out.println(engine.getRenderSystem().getGLCanvas().getHeight());
+		System.out.println(width);
+		System.out.println(height);
+		(engine.getHUDmanager()).setHUD1(scoreDisplayStr, hud1Color, 600, 15); //TODO set to screen dimensions
+		(engine.getHUDmanager()).setHUD2(locationString, hud2Color, width, height);
 
 		// update input manager
 		im.update((float) elapsTime);// can prob take out
