@@ -120,7 +120,7 @@ public class MyGame extends VariableFrameRateGame
 		cub3.setLocalScale(initialScale);
 
 		planeObj = new GameObject(GameObject.root(), plane, grass);
-		initialScale = (new Matrix4f()).scaling(20f);
+		initialScale = (new Matrix4f()).scaling(40f);
 		planeObj.setLocalScale(initialScale);
 	}
 
@@ -191,8 +191,8 @@ public class MyGame extends VariableFrameRateGame
 		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Axis.Y, fwdAction,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
 		
-		im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Button._0, ride,
-		InputManager.INPUT_ACTION_TYPE.ON_PRESS_ONLY);
+		//im.associateActionWithAllGamepads(net.java.games.input.Component.Identifier.Button._0, ride,
+		//InputManager.INPUT_ACTION_TYPE.ON_PRESS_ONLY);
 
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.Y, zoom,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
@@ -320,12 +320,14 @@ public class MyGame extends VariableFrameRateGame
 				newLocation = loc.add(fwd.mul(-.02f));
 				dol.setLocalLocation(newLocation);
 				break;
+			/* 
 			case KeyEvent.VK_SPACE: // view from dolphin
 				if(isMounted){
 					dismountCam(); //somewhat redundant
 				}
 				isMounted = !isMounted;
 				break;
+			*/
 			}
 		super.keyPressed(e);
 	}
