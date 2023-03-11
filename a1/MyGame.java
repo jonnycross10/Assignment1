@@ -45,6 +45,8 @@ public class MyGame extends VariableFrameRateGame
 
 	private NodeController rc,bc;
 
+	private CameraOrbit3D orbitCam;
+
 	public MyGame() { super(); }
 
 	public static void main(String[] args)
@@ -151,8 +153,6 @@ public class MyGame extends VariableFrameRateGame
 		(engine.getSceneGraph()).addNodeController(bc);
 		(engine.getRenderSystem()).setWindowDimensions(1900,1000);
 
-		
-
 		isMounted = true;
 
 		//INPUT SECTION
@@ -211,16 +211,22 @@ public class MyGame extends VariableFrameRateGame
 
 		im.associateActionWithAllKeyboards(net.java.games.input.Component.Identifier.Key.L, pan,
 		InputManager.INPUT_ACTION_TYPE.REPEAT_WHILE_DOWN);
-		
+
+
+		// create the orbit view
+		String gpName = im.getFirstGamepadName();
+		Camera cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+		orbitCam = new CameraOrbit3D(cam,dol, gpName,engine);
+		//placeCamBehindAv();
 	}
 
 	@Override
 	public void update()
 	{		
-		// rotate dolphin if not paused
 		lastFrameTime = currFrameTime;
 		currFrameTime = System.currentTimeMillis();
 		if (!paused) elapsTime += (currFrameTime - lastFrameTime) / 1000.0;
+		orbitCam.updateCameraPosition();
 
 		// build and set HUD
 		int elapsTimeSec = Math.round((float)elapsTime);
@@ -252,7 +258,7 @@ public class MyGame extends VariableFrameRateGame
 		updateScore();
 
 		if(isMounted) {
-			mountCam();
+			//mountCam();
 			// recenter if dolphin is below world
 			reCenterDolphBelowMap();
 		}
@@ -488,6 +494,15 @@ public class MyGame extends VariableFrameRateGame
 		Matrix4f initialScale = (new Matrix4f()).scaling(0.05f);
 		obj.setLocalScale(initialScale);
 		return obj;
+	}
+
+	public void placeCamBehindAv(){
+		//get avatars position -val in the 
+		Vector3f dolLoc = dol.getLocalLocation();
+		Vector3f newLoc = dolLoc.add(new Vector3f(0,10f,0));
+		Camera cam = (engine.getRenderSystem().getViewport("MAIN").getCamera());
+		cam.setLocation(newLoc);
+		cam.lookAt(dol);
 	}
 
 }

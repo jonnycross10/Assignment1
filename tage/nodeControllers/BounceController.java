@@ -39,7 +39,6 @@ public class BounceController extends NodeController
 		if (ticks % (height * 10) == 0){
             up = up * -1.0f;
         }
-        System.out.println(elapsedTime);
         Matrix4f initTranslation = go.getLocalTranslation();
         float translationAmount = elapsedTime * up;
         Vector3f transVector = (new Vector3f(axis)).mul(translationAmount);
